@@ -1,0 +1,18 @@
+{% extends "EngTute/base.html" %}
+
+{% block content %}
+    <h1>Concepts List</h1>
+    <ul>
+        {% for concept in concepts %}
+            <li>
+                <strong>Title:</strong> {{ concept.title }} <br>
+                <strong>Order:</strong> {{ concept.order }} <br>
+                <strong>Slug:</strong> {{ concept.slug }} <br>
+                <strong>Published:</strong> {{ concept.is_published }} <br>
+                <strong>Has Subtitles:</strong> {{ concept.has_subtitles }}
+            </li>
+        {% empty %}
+            <li>No concepts available Right Now!.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
