@@ -1,0 +1,11 @@
+{% extends 'EngTute/base.html' %}
+
+{% block title %}Admin page{% endblock %}
+<!--Wanted to create a seperate form to add content in site but decide to use admin page!-->
+{% block content %}
+<form method="post" action="/postcontent/">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit", name="save">Publish</button>
+<!--    <button type="draft", name="draft">Draft</button>-->
+</form>

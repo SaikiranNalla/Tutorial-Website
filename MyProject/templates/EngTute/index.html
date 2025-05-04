@@ -1,15 +1,18 @@
 {% extends "EngTute/base.html" %}
+<!--To render all the titles in the Concept model/table's column 'title'-->
+{% block title %} EngTute Contents {% endblock %}
 
 {% block content %}
-    <h1>Concepts List</h1>
+    <h1><strong>Contents:</strong></h1>
     <ul>
         {% for concept in concepts %}
             <li>
-                <strong>Title:</strong> {{ concept.title }} <br>
-                <strong>Order:</strong> {{ concept.order }} <br>
-                <strong>Slug:</strong> {{ concept.slug }} <br>
-                <strong>Published:</strong> {{ concept.is_published }} <br>
-                <strong>Has Subtitles:</strong> {{ concept.has_subtitles }}
+<!--                <strong>Order:</strong> {{ concept.order }} <br>-->
+<!--                <strong>Title:</strong> {{ concept.title }} <br>-->
+<!--                <strong>Slug:</strong> {{ concept.slug }} <br>-->
+<!--                <strong>Published:</strong> {{ concept.is_published }} <br>-->
+<!--                <strong>Has Subtitles:</strong> {{ concept.has_subtitles }}-->
+                <a href="{% url 'topic' concept.slug %}"><h3><strong> {{concept.order}}.</strong> {{ concept.title }}</h3></a>
             </li>
         {% empty %}
             <li>No concepts available Right Now!.</li>

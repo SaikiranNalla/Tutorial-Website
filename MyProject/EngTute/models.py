@@ -10,11 +10,13 @@ class Concept(models.Model):
     slug        = models.SlugField(max_length=200, unique=True, blank=True,
                                    help_text="URL-friendly identifier; auto-generated")
     # content = CKEditor5Field()
-    ''' content = CKEditor5Field(config_name='default') # You can edit the ckeditor text field, dig around
-    The optional config_name parameter should match the key in your CKEDITOR_5_CONFIGS settings. 
-    Do the same for the Subtitle model or any other place where you previously used the old CKEditor field. '''
-    has_subtitles = models.BooleanField(default=False)
-    is_published= models.BooleanField(default=False)
+    content = CKEditor5Field(config_name='default', default='')
+    # You can edit the ckeditor text field, dig around
+    # The optional config_name parameter should match the key in your CKEDITOR_5_CONFIGS settings.
+    # Do the same for the Subtitle model or any other place where you previously used the old CKEditor field. '''
+    # has_subtitles = models.BooleanField(default=False)
+    draft = models.BooleanField(default=False,
+                                help_text="Tick if this concept should remain in draft not show up in live site)")
     created_at  = models.DateTimeField(auto_now_add=True)
     updated_at  = models.DateTimeField(auto_now=True)
 
@@ -36,8 +38,8 @@ class Subtitle(models.Model):
     title       = models.CharField(max_length=200)
     slug        = models.SlugField(max_length=200, unique=True, blank=True,
                                    help_text="URL-friendly identifier; auto-generated")
-    # content = CKEditor5Field()
-    is_published= models.BooleanField(default=False)
+    content = CKEditor5Field(config_name='default', default='')
+    draft = models.BooleanField(default=False)
     created_at  = models.DateTimeField(auto_now_add=True)
     updated_at  = models.DateTimeField(auto_now=True)
 

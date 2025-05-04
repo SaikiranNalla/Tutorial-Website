@@ -42,6 +42,25 @@ INSTALLED_APPS = [
     'django_ckeditor_5'
 ]
 
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': {
+            'items': [
+                'heading', '|', 'bold', 'italic', 'link',
+                'bulletedList', 'numberedList', 'blockQuote', 'insertTable',
+                'mediaEmbed', 'undo', 'redo',
+                # 'codeBlock'
+            ]
+        },
+        'language': 'en',
+        # Add any other configuration options you need,
+        # The following forces the editor's content area into dark mode: color: #dcdcdc; -- text color
+        "contentStyle": "body { background-color: #1e1e1e; color: #dcdcdc; font-family: sans-serif; }",
+    }
+}
+# Django CKEditor custom CSS setting:
+CKEDITOR_5_CUSTOM_CSS = "css/admin_dark_mode_fix.css"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

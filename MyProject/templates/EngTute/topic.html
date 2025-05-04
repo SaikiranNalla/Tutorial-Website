@@ -1,0 +1,47 @@
+{% extends 'Engtute/base.html' %}
+
+{% block content %}
+    <h2>{{ concept.title }}</h2>
+<!--    <p><strong>Order:</strong> {{ concept.order }}</p>-->
+<!--    <p><strong>Slug:</strong> {{ concept.slug }}</p>-->
+<!--    <p><strong>Published:</strong> {{ concept.is_published }}</p>-->
+    <p><strong>Content:</strong></p>
+    <div>
+      {{ concept.content|safe }}
+    </div>
+  {% if concept.subtitles.all %}
+<!--I wanted to render all the subtitle content in the same page but above that render a list of subtopics-->
+<!--    <hr>-->
+<!--    <h2>{{ concept.title }}</h2>-->
+<!--    <ul>-->
+<!--        list of subtopics-->
+    <ul>
+        {% for subtitle in concept.subtitles.all %}
+            <li>
+<!--                for smooth scrolling i have to add "scroll-behavior: smooth;" some where in html-->
+                <a href="#subtitle-{{ subtitle.order }}"><strong>{{ subtitle.title }}</strong></a>
+            </li>
+        {% endfor %}
+    </ul>
+<!--    contents of subtopics-->
+    {% for subtitle in concept.subtitles.all %}
+<!--here maybe id are faster to load instead of order, take a look later on!-->
+        <section id="subtitle-{{ subtitle.order }}">
+            <h3>{{ subtitle.title }}</h3>
+            <div>
+                {{ subtitle.content|safe }}
+            </div>
+        </section>
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
+<!-- for edit option of the content(concept) for admin users only-->
+<!--{% if user.is_staff %}-->
+<!--<a href="{% url 'admin:engtute_concept_change' concept.pk %}">Edit Concept</a>-->
+<!--{% endif %}-->
+
+<!-- for edit option of the content(subtitle) for admin users only-->
+<!--{% if user.is_staff %}-->
+<!--  <a href="{% url 'admin:engtute_subtitle_change' subtitle.pk %}">Edit Subtitle</a>-->
+<!--{% endif %}-->

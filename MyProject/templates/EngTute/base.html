@@ -3,11 +3,16 @@
 <!--TODO: I need to add Nav bar, logo and side menu as a default for all pages-->
 <head>
     <meta charset="UTF-8">
-    <title>EngTute</title>
+    <title>{% block title %} EngTute {% endblock %}</title>
 </head>
 <body>
-    <p>Nav bar</p>
-    <p>{{title}}</p>
+<!--TODO: Create a navigation bar using Bootstrap (Home, contact, About) and side panel(have to figure out how to do it!-->
+<!--    <p>Nav bar</p>-->
+<!--    <p>{{title}}</p>-->
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>
 <!--TODO: Figure out about the header and footer-->

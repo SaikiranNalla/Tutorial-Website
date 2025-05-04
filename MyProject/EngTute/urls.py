@@ -13,4 +13,6 @@ urlpatterns = [
     # to render specific topic
     path('concept/<slug:slug>/', views.topic, name='topic'),
     # TODO: have to create a path for every topic in the database maybe, don't forget o mention the same in MyProject/url.py
+    # path('post/', views.post, name="post")
+    # path('ckeditr')
 ]
