@@ -1,40 +1,117 @@
 {% extends 'Engtute/base.html' %}
 
+
+
+<!--&lt;!&ndash; Offcanvas Side Panel (opens from the left) &ndash;&gt;-->
+<!--    <div class="offcanvas offcanvas-start collapse navbar-collapse" tabindex="-1" id="sidePanel" aria-labelledby="sidePanelLabel">-->
+<!--      <div class="offcanvas-header">-->
+<!--        <h5 class="offcanvas-title" id="sidePanelLabel">Topics</h5>-->
+<!--        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>-->
+<!--      </div>-->
+<!--      <div class="offcanvas-body">-->
+<!--        &lt;!&ndash; Same menu items as in the navbar &ndash;&gt;-->
+<!--        <ul class="navbar-nav">-->
+<!--            {% for concept in all_concepts %}-->
+<!--                <div class="">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="{% url 'topic' concept.slug %}"><strong> {{concept.order}}.</strong> {{ concept.title }}</a>-->
+<!--                    </li>-->
+<!--                </div>-->
+<!--            {% endfor %}-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </div>-->
+
+
+
 {% block content %}
-    <h2>{{ concept.title }}</h2>
-<!--    <p><strong>Order:</strong> {{ concept.order }}</p>-->
-<!--    <p><strong>Slug:</strong> {{ concept.slug }}</p>-->
-<!--    <p><strong>Published:</strong> {{ concept.is_published }}</p>-->
-    <p><strong>Content:</strong></p>
-    <div>
-      {{ concept.content|safe }}
-    </div>
-  {% if concept.subtitles.all %}
-<!--I wanted to render all the subtitle content in the same page but above that render a list of subtopics-->
-<!--    <hr>-->
-<!--    <h2>{{ concept.title }}</h2>-->
-<!--    <ul>-->
-<!--        list of subtopics-->
-    <ul>
-        {% for subtitle in concept.subtitles.all %}
-            <li>
-<!--                for smooth scrolling i have to add "scroll-behavior: smooth;" some where in html-->
-                <a href="#subtitle-{{ subtitle.order }}"><strong>{{ subtitle.title }}</strong></a>
-            </li>
+<!--  {# 1. Fixed Left Panel (Side Panel)                                          #}-->
+<!--  {# -->
+<!--      - "d-none d-md-block": The panel is hidden on extra-small and small screens-->
+<!--        (it disappears for better readability) and shown only on medium and larger screens.-->
+<!--      - "position-fixed": Keeps the panel fixed relative to the viewport.-->
+<!--      - "top:70px": Positions the panel just below the fixed navbar (assumed height 70px).-->
+<!--      - "height: calc(100vh - 70px)": Fills the remaining viewport height.-->
+<!--      - "width:300px": A fixed width for the panel.-->
+<!--  #}-->
+  <!-- Fixed left sidebar: visible only on md and larger screens -->
+  <div class="d-none d-md-block position-fixed sidebar-panel">
+    <div class="sidebar-inner">
+      <ul class="list-unstyled sidebar-list">
+        {% for concept in all_concepts %}
+          <li class="sidebar-item">
+            <a href="{% url 'topic' concept.slug %}" class="side-link">
+              <strong>{{ concept.order }}.</strong> {{ concept.title }}
+            </a>
+          </li>
         {% endfor %}
-    </ul>
-<!--    contents of subtopics-->
-    {% for subtitle in concept.subtitles.all %}
-<!--here maybe id are faster to load instead of order, take a look later on!-->
-        <section id="subtitle-{{ subtitle.order }}">
-            <h3>{{ subtitle.title }}</h3>
-            <div>
+      </ul>
+    </div>
+  </div>
+
+
+
+
+<!--  {# 2. Main Content Container                                                  #}-->
+<!--  {#-->
+<!--      - The container-fluid has a top margin of 70px (to sit below the navbar).-->
+<!--      - We do NOT apply an inline left margin here; instead, we use a custom CSS class (.main-content)-->
+<!--        to add a left margin ONLY on medium and larger screens—this prevents overlapping with the fixed panel.-->
+<!--      - On small screens (where the panel is hidden), no left margin is applied so the content uses the full width.-->
+<!--  #}-->
+  <div class="container-fluid pt-5 main-content" style="margin-top:70px;">
+    <div class="row">
+<!--      {# -->
+<!--          Main Content Column:-->
+<!--          - "col-12": Full-width on extra-small screens.-->
+<!--          - "col-md-7": On medium screens and above, the grid column occupies 7/12 of the row.-->
+<!--          - (Our custom CSS will add a left margin of 300px on md+)-->
+<!--      #}-->
+      <div class="col-12 col-md-7">
+        <h2>{{ concept.title }}</h2>
+        <p><strong>Content:</strong></p>
+        <div>
+          {{ concept.content|safe }}
+        </div>
+<!--        {# If there are subtitles, list them and display their content #}-->
+        {% if concept.subtitles.all %}
+          <ul>
+            {% for subtitle in concept.subtitles.all %}
+              <li>
+<!--                  link text are not so good have to fix it!-->
+                <a href="#subtitle-{{ subtitle.order }}" style="color: default; font-size: 20px; text-decoration: none;"><strong>{{ subtitle.title }}</strong></a>
+              </li>
+            {% endfor %}
+          </ul>
+          {% for subtitle in concept.subtitles.all %}
+            <section id="subtitle-{{ subtitle.order }}">
+              <h3>{{ subtitle.title }}</h3>
+              <div>
                 {{ subtitle.content|safe }}
-            </div>
-        </section>
-    {% endfor %}
-  {% endif %}
+              </div>
+            </section>
+          {% endfor %}
+        {% endif %}
+      </div>
+<!--      {# -->
+<!--          Reserved Right Column:-->
+<!--          - "col-12 col-md-2": On extra-small screens, it spans full width (you might hide it then),-->
+<!--            and on medium+ it reserves 2/12 of the row for future content.-->
+<!--      #}-->
+      <div class="col-12 col-md-2">
+        <!-- Reserved space for future content -->
+      </div>
+    </div>
+  </div>
 {% endblock %}
+
+
+
+
+
+
+
+
 
 <!-- for edit option of the content(concept) for admin users only-->
 <!--{% if user.is_staff %}-->

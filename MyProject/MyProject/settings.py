@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'EngTute.apps.EngtuteConfig',
-    'django_ckeditor_5'
+    'django_ckeditor_5',
+    'django_bootstrap5',
+    'dark_mode_switch',
 ]
 
 CKEDITOR_5_CONFIGS = {

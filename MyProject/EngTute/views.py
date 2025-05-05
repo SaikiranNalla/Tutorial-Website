@@ -26,10 +26,12 @@ def topic(request, slug):
     # form EngTute/urls.py to here, if user type anything in the url bar it will pass it here
     # topic = Concept.
     # return HttpResponse('Welcome to EngTute, Later on we will render a html page using bootstrap')
+    all_concepts = Concept.objects.all().order_by('order').filter(draft = False)
     concept = get_object_or_404(Concept, slug=slug)
     context = {
         'concept': concept,
-        'subtitles': concept.subtitles.all()
+        'subtitles': concept.subtitles.all(),
+        'all_concepts': all_concepts
     }
     # TODO: Need to change the render page base to specific topic page
     return render(request, 'EngTute/topic.html', context)
