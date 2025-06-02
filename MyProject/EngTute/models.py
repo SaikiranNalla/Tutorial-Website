@@ -5,6 +5,26 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 # Create your models here.
 class Concept(models.Model):
+    title = models.CharField(max_length=200)
+    tagline = models.CharField(max_length=300, null=True, blank=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True,
+                            help_text="URL-friendly identifier; auto-generated")
+    draft = models.BooleanField(default=False,
+                                help_text="Tick if this topic should remain in draft not show up in live site)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Auto-generate slug from title if blank
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+class Topic(models.Model):
+    concept = models.ForeignKey(Concept, on_delete=models.CASCADE, related_name='topics')
     order       = models.PositiveIntegerField(help_text="Controls display order")
     title       = models.CharField(max_length=200)
     slug        = models.SlugField(max_length=200, unique=True, blank=True,
@@ -16,7 +36,7 @@ class Concept(models.Model):
     # Do the same for the Subtitle model or any other place where you previously used the old CKEditor field. '''
     # has_subtitles = models.BooleanField(default=False)
     draft = models.BooleanField(default=False,
-                                help_text="Tick if this concept should remain in draft not show up in live site)")
+                                help_text="Tick if this topic should remain in draft not show up in live site)")
     created_at  = models.DateTimeField(auto_now_add=True)
     updated_at  = models.DateTimeField(auto_now=True)
 
@@ -33,7 +53,7 @@ class Concept(models.Model):
         return f"{self.order}. {self.title}"
 
 class Subtitle(models.Model):
-    concept = models.ForeignKey(Concept, on_delete=models.CASCADE, related_name='subtitles')
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='subtitles')
     order       = models.PositiveIntegerField(help_text="Controls display order")
     title       = models.CharField(max_length=200)
     slug        = models.SlugField(max_length=200, unique=True, blank=True,
@@ -45,7 +65,7 @@ class Subtitle(models.Model):
 
     class Meta:
         ordering = ['order']
-        unique_together = ['concept', 'slug']
+        unique_together = ['topic', 'slug']
 
     def save(self, *args, **kwargs):
         # Auto-generate slug from title if blank
@@ -54,4 +74,4 @@ class Subtitle(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.concept.title} - {self.order}. {self.title}"
+        return f"{self.topic.title} - {self.order}. {self.title}"

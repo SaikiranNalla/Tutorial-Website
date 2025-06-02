@@ -8,9 +8,9 @@
   <div class="container py-5">
     <div class="text-center my-5">
 <!--      {# Main large heading using display-4 for a high-impact font size #}-->
-      <h1 class="display-4">EngTute</h1>
+      <h1 class="display-4">{{ concept.title }}</h1>
 <!--      {# A subheading using the lead class for a slightly lighter, descriptive tone #}-->
-      <p class="lead">A Complete English Tutorial</p>
+      <p class="lead">{{ concept.tagline }}</p>
 <!--      {# The call-to-action button: btn-dark gives you a black button with white text; btn-lg for a larger button #}-->
       <a href="#concepts-{{ concepts.order }}"  class="btn btn-dark btn-lg">Get Started</a>
     </div>
@@ -25,20 +25,41 @@
 <!--          </li>-->
 <!--        {% endfor %}-->
 <!--      </ul>-->
-  <div class="container p-5 my-5 border" style="background-color: #f8f8f8;">
-    <h1><strong>Contents:</strong></h1>
-      <div class="sidebar-inner">
-        <ul class="list-unstyled">
-            {% for concept in concepts %}
-                <div class="" id="concepts-{{ concepts.order }}">
-                    <li class="sidebar-item">
-                        <a href="{% url 'topic' concept.slug %}" class="side-link"><h3><strong> {{concept.order}}.</strong> {{ concept.title }}</h3></a>
-                    </li>
-                </div>
-            {% empty %}
-                <li>No concepts available Right Now!.</li>
-            {% endfor %}
+
+<!--  <div class="container p-5 my-5 border" style="background-color: #f8f8f8;">-->
+<!--    <h1><strong>Contents:</strong></h1>-->
+<!--      <div class="sidebar-inner">-->
+<!--       {% if topics %}-->
+<!--        <ul class="list-unstyled">-->
+<!--            {% for topic in topics %}-->
+<!--                <div class="" id="concepts-{{ concepts.order }}">-->
+<!--                    <li class="sidebar-item">-->
+<!--                        <a href="{% url 'index' topic.slug %}" class="side-link"><h3><strong> {{concept.order}}.</strong> {{ concept.title }}</h3></a>-->
+<!--                    </li>-->
+<!--                </div>-->
+<!--            {% empty %}-->
+<!--                <li>No concepts available Right Now!.</li>-->
+<!--            {% endfor %}-->
+<!--            {% endif %}-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--  </div>-->
+<div class="container mt-4">
+    <h1>Contents: {{ concept.title }}</h1> {# Displays the title of the current concept #}
+
+    {% if topics %} {# Check if there are any topics to display #}
+        <ul class="list-group">
+            {% for topic in topics %} {# Start looping through each 'topic' in the 'topics' list #}
+                <li class="list-group-item">
+                    {# Create a link to the individual topic page #}
+                    <a href="{% url 'topic' concept_slug=concept.slug topic_slug=topic.slug %}">
+                        {{ topic.order }}. {{ topic.title }} {# Display the topic's order and title #}
+                    </a>
+                </li>
+            {% endfor %} {# End the loop #}
         </ul>
-      </div>
-  </div>
+    {% else %} {# If there are no topics in the 'topics' list #}
+        <p>No topics found for this concept yet.</p>
+    {% endif %}
+</div>
 {% endblock %}
