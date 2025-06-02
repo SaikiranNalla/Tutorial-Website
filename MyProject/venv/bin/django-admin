@@ -1,4 +1,4 @@
-#!/home/vini/PycharmProjects/EngTute/MyProject/venv/bin/python
+#!/home/vini/PycharmProjects/Tutorial/MyProject/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

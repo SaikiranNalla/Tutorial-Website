@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'EngTute.apps.EngtuteConfig',
+    'Tutorial.apps.TutorialConfig',
     'django_ckeditor_5',
     'django_bootstrap5',
     'dark_mode_switch',
