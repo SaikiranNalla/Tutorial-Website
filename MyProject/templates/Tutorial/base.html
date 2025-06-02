@@ -1,0 +1,207 @@
+{% load static %}
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tutorial</title>
+<!--    For Dark Mode -->
+    <link href="{% static 'dark_mode_switch/dark-mode-switch.css' %}" rel="stylesheet" type="text/css">
+    {% block bootstrap5_extra_head %}{% endblock %}
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+<!--      /* Optional: Ensure the toggler icon is visible on our colored background */-->
+      .navbar-toggler {
+        border-color: rgba(255, 255, 255, 0.55);
+      }
+      .navbar-toggler-icon {
+        filter: invert(1);
+      }
+      .html {
+        scroll-behavior: smooth;
+      }
+<!--      /* Sidebar link hover effect: changes the background color slightly when hovered */-->
+      .side-link:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+      }
+<!--/* -->
+<!--  On medium (md) screens and larger, add a left margin to the main content container -->
+<!--  so it doesn't overlap with the fixed left panel.-->
+<!--  - This margin exactly equals the fixed panel's width (300px).-->
+<!--*/-->
+      @media (min-width: 768px) {
+        .main-content {
+          margin-left: 300px;
+        }
+      }
+<!--      /* Sidebar container styling */-->
+      .sidebar-panel {
+        top: 70px;                     /* Start below the fixed navbar (assumed height 70px) */
+        left: 0;                       /* Aligned flush with the left edge */
+        width: 300px;                  /* Fixed width */
+        height: calc(100vh - 70px);      /* Full viewport height minus the navbar */
+        background-color: #f8f8f8;       /* Greyish white background */
+        overflow-y: auto;              /* Add vertical scrolling if needed */
+      }
+
+<!--      /* Inner padding for the sidebar content */-->
+      .sidebar-inner {
+        padding: 1rem;                 /* Overall inner padding */
+      }
+
+<!--      /* List style reset (if needed) */-->
+      .sidebar-list {
+        margin: 0;
+        padding: 0;
+      }
+
+<!--      /* Individual sidebar items; add a bit of margin spacing between items */-->
+      .sidebar-item {
+        margin-bottom: 0.5rem;
+      }
+
+<!--      /* Sidebar links default styling */-->
+      .side-link {
+        display: block;                    /* Make the link fill the container’s width */
+        padding: 0.25rem 1rem;              /* Good, consistent padding */
+        border-radius: 4px;                /* Slightly rounded corners */
+        color: #333;                       /* Base text color */
+        text-decoration: none;             /* Remove default underline */
+        transition: background-color 0.3s ease;  /* Smooth transition for hover effect */
+      }
+
+<!--      /* Hover state: change background to a slightly darker grey */-->
+      .side-link:hover {
+        background-color: #e0e0e0;
+      }
+
+<!--      /* Active/selected state, for example if you add the class "active" server-side */-->
+      .side-link.active,
+      .side-link.selected {
+        background-color: #417690;   /* Selected color */
+        color: #fff;                 /* White text for contrast */
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md fixed-top" style="background-color: #417690;">
+      <div class="container-fluid">
+        <!-- Left side: Button to open the offcanvas side panel -->
+        <button class="btn me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidePanel" aria-controls="sidePanel">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Brand Name -->
+        <a class="navbar-brand" href="/">sₖ</a>
+
+        <!-- Right side: Navbar toggle on small screens -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible navbar content (right aligned) -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav">
+            <!-- Home Link -->
+            <li class="nav-item">
+              <a class="nav-link text-light" href="/">Home</a>
+            </li>
+            <!-- Tutorials Dropdown -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-light" href="#" id="tutorialsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Tutorials
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="tutorialsDropdown">
+<!--                <li><a class="dropdown-item" href="/topics">Tutorial</a></li>-->
+<!--                <li><a class="dropdown-item" href="/topics">CyberSecurity</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">Py</a></li>-->
+                  {% for concept in nav_concepts %}
+                      <li>
+                        <a class="dropdown-item" href="{% url 'index' concept.slug %}">{{ concept.title }}</a>
+                      </li>
+                  {% endfor %}
+              </ul>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="#">Contact Us</a>
+            </li>
+            <li class="navbar-nav ms-auto">
+                {% include 'dark_mode_switch/dark_mode_switch.html' %}
+            </li>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% block sidepanel %}
+        <!-- Offcanvas Side Panel (opens from the left) -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="sidePanel" aria-labelledby="sidePanelLabel" style="background-color: #417690;" >
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidePanelLabel">Menu</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <!-- Same menu items as in the navbar -->
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link text-light" href="/">Home</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="#" id="offcanvasTutorialsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Tutorials
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="offcanvasTutorialsDropdown">
+<!--                  <li><a class="dropdown-item" href="/topics">Tutorial</a></li>-->
+<!--                  <li><a class="dropdown-item" href="/topics">CyberSecurity</a></li>-->
+<!--                  <li><a class="dropdown-item" href="#">Python</a></li>-->
+                  {% for concept in nav_concepts %}
+                      <li>
+                        <a class="dropdown-item" href="{% url 'index' concept.slug %}">{{ concept.title }}</a>
+                      </li>
+                  {% endfor %}
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-light" href="/about">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-light" href="#">Contact Us</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    {% endblock %}
+    <div>
+        {% block content %}
+        <div class="container py-5">
+            <div class="text-center my-5">
+<!--      {# Main large heading using display-4 for a high-impact font size #}-->
+             <h1 class="display-1"><strong>sₖ Tutorial</strong></h1>
+<!--      {# A subheading using the lead class for a slightly lighter, descriptive tone #}-->
+                <p class="display-6"><strong>Learn to Excel</strong></p>
+<!--      {# The call-to-action button: btn-dark gives you a black button with white text; btn-lg for a larger button #}-->
+<!--      <a href="#concepts-{{ concepts.order }}"  class="btn btn-dark btn-lg">Get Started</a>-->
+            </div>
+<!--    {# Future content: a list of items can be inserted here later #}-->
+<!--    like add buttons for each course-->
+        </div>
+        {% endblock %}
+    </div>
+
+    <!-- Bootstrap JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!--  For Dark mode JS script-->
+    {% block bootstrap5_extra_script %}{% endblock %}
+    <script src="{% static 'dark_mode_switch/dark-mode-switch.js' %}"></script>
+  </body>
+</html>
