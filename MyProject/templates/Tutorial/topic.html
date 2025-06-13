@@ -152,6 +152,101 @@
 {% endblock %}
 
 
+{# block content #}
+
+  {# Added pt-5 for top padding to account for the fixed-top navbar #}
+  <div class="container-fluid pt-5 pb-3">
+    <div class="row">
+
+      {# ===================================================================== #}
+      {# TOPIC LIST SIDEBAR - For Larger Screens (>=md)                         #}
+      {# This column is hidden on small screens and shown as a fixed sidebar  #}
+      {# ===================================================================== #}
+      <div class="col-md-3 d-none d-md-block bg-light border-end pt-3"> {# bg-light for a subtle background, border-end for a separator #}
+        <h5 class="mb-3 text-secondary">Topics in {{ concept.title }}</h5>
+        <ul class="list-group list-group-flush">
+          {% for t in concept.topics.all|dictsort:"order" %}
+            <li class="list-group-item {% if t.slug == topic.slug %}active{% endif %}">
+              <a class="nav-link {% if t.slug == topic.slug %}text-white{% else %}text-dark{% endif %}"
+                 href="{% url 'topic' concept_slug=concept.slug topic_slug=t.slug %}">
+                {{ t.order }}. {{ t.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      {# ===================================================================== #}
+      {# MAIN CONTENT AREA                                                     #}
+      {# Spans full width on small screens, and shrinks for sidebar on larger #}
+      {# ===================================================================== #}
+      <div class="col-12 col-md-9">
+        <div class="px-md-3"> {# Add horizontal padding for content #}
+          {# Toggle button for the Offcanvas on small screens #}
+          <div class="d-block d-md-none mb-3">
+            <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#topicOffcanvas" aria-controls="topicOffcanvas">
+              <i class="bi bi-list me-2"></i> {# Add a Bootstrap Icon, ensure you have Bootstrap Icons loaded in base.html #}
+            </button>
+          </div>
+
+          <h1 class="display-5 fw-bold mb-3">{{ topic.title }}</h1>
+          <p class="lead text-muted mb-4">{{ topic.tagline }}</p>
+
+          <hr>
+
+          {# CKEditor5Field content #}
+          <div class="ck-content mb-5"> {# Add some bottom margin to content #}
+            {{ topic.content|safe }}
+          </div>
+
+          {# Previous/Next Topic Navigation #}
+          <div class="row mt-5 pt-3 border-top"> {# Added border-top for visual separation #}
+            <div class="col-6 text-start">
+                {% if prev_topic %} {# Show button only if there is a previous topic #}
+                    <a href="{% url 'topic' concept_slug=concept.slug topic_slug=prev_topic.slug %}" class="btn btn-outline-primary" role="button">
+                        &laquo; {{ prev_topic.title }}
+                    </a>
+                {% endif %}
+            </div>
+            <div class="col-6 text-end">
+                {% if next_topic %} {# Show button only if there is a next topic #}\
+                    <a href="{% url 'topic' concept_slug=concept.slug topic_slug=next_topic.slug %}" class="btn btn-outline-primary" role="button">
+                        {{ next_topic.title }} &raquo;
+                    </a>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  {# ===================================================================== #}
+  {# TOPIC LIST OFFCAVAS - For Smaller Screens (<md)                       #}
+  {# This offcanvas overlaps content and is triggered by the button above #}
+  {# ===================================================================== #}
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="topicOffcanvas" aria-labelledby="topicOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="topicOffcanvasLabel">Topics in {{ concept.title }}</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="list-group list-group-flush">
+        {% for t in concept.topics.all|dictsort:"order" %}
+          <li class="list-group-item {% if t.slug == topic.slug %}active{% endif %}">
+            <a class="nav-link {% if t.slug == topic.slug %}text-white{% else %}text-dark{% endif %}"
+               href="{% url 'topic' concept_slug=concept.slug topic_slug=t.slug %}">
+              {{ t.order }}. {{ t.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+{# endblock #}
+
 
 
 
