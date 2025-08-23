@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-import environ
+# import environ
 # from dotenv import load_dotenv
 #
 # load_dotenv()
@@ -21,11 +21,11 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # django-environ setup
-env = environ.Env(
-    DEBUG = (bool, False)
-)
+# env = environ.Env(
+#     DEBUG = (bool, False)
+# )
 
-environ.Env.read_env(os.path.join(BASE_DIR,'.env'))
+# environ.Env.read_env(os.path.join(BASE_DIR,'.env'))
 
 
 
@@ -33,12 +33,12 @@ environ.Env.read_env(os.path.join(BASE_DIR,'.env'))
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-25nnp7zrqpt8hlme_85jra50b#xr3gnx+#chfjw1nqg5e!(3)1'
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'django-insecure-25nnp7zrqpt8hlme_85jra50b#xr3gnx+#chfjw1nqg5e!(3)1'
+# SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = env('DEBUG')
+DEBUG = True
+# DEBUG = env('DEBUG')
 
 
 ALLOWED_HOSTS = []
@@ -122,16 +122,29 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 #     }
 # }
 ## For PostgreSQL Database
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#     'NAME': 'postgres',
+#     'USER': 'postgres',
+#     'PASSWORD': 'Vini@26499',
+#     'HOST': '127.0.0.1',
+#     'PORT': '5432',
+#         }
+#     }
+
+
+
 DATABASES = {
-    'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'postgres',
-    'USER': 'postgres',
-    'PASSWORD': 'Vini@26499',
-    'HOST': '127.0.0.1',
-    'PORT': '5432',
-        }
-    }
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': os.environ.get('DB_NAME', 'myapp_db'),
+    'USER': os.environ.get('DB_USER', 'myapp_user'),
+    'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+    'HOST': os.environ.get('DB_HOST', 'localhost'),
+    'PORT': os.environ.get('DB_PORT', '5432'),
+  }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
