@@ -1,265 +1,345 @@
 {% extends "Tutorial/base.html" %}
 
-
-
-<!--&lt;!&ndash; Offcanvas Side Panel (opens from the left) &ndash;&gt;-->
-<!--    <div class="offcanvas offcanvas-start collapse navbar-collapse" tabindex="-1" id="sidePanel" aria-labelledby="sidePanelLabel">-->
-<!--      <div class="offcanvas-header">-->
-<!--        <h5 class="offcanvas-title" id="sidePanelLabel">Topics</h5>-->
-<!--        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>-->
-<!--      </div>-->
-<!--      <div class="offcanvas-body">-->
-<!--        &lt;!&ndash; Same menu items as in the navbar &ndash;&gt;-->
-<!--        <ul class="navbar-nav">-->
-<!--            {% for topic in topics %}-->
-<!--                <div class="">-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" href="{% url 'topic' concept_slug=concept.slug topic_slug=topic.slug %}">-->
-<!--                {{ topic.order }}. {{ topic.title }} {# Display the topic's order and title #}&ndash;&gt;-->
-<!--                    </li>-->
-<!--                </div>-->
-<!--            {% endfor %}-->
-<!--        </ul>-->
-<!--      </div>-->
-<!--    </div>-->
-
-
-
 {% block content %}
-<!--  {# 1. Fixed Left Panel (Side Panel)                                          #}-->
-<!--  {# -->
-<!--      - "d-none d-md-block": The panel is hidden on extra-small and small screens-->
-<!--        (it disappears for better readability) and shown only on medium and larger screens.-->
-<!--      - "position-fixed": Keeps the panel fixed relative to the viewport.-->
-<!--      - "top:70px": Positions the panel just below the fixed navbar (assumed height 70px).-->
-<!--      - "height: calc(100vh - 70px)": Fills the remaining viewport height.-->
-<!--      - "width:300px": A fixed width for the panel.-->
-<!--  #}-->
-  <!-- Fixed left sidebar: visible only on md and larger screens -->
-    <div class="d-none d-md-block position-fixed sidebar-panel">
-      <div class="sidebar-inner">
-        <ul class="list-unstyled sidebar-list">
-          {% for topic in topics %} {# Start looping through each 'topic' in the 'topics' list #}
-          <li class="sidebar-item">
-            <a href="{% url 'topic' concept_slug=concept.slug topic_slug=topic.slug %}" class="side-link">
-              {{ topic.order }}. {{ topic.title }} {# Display the topic's order and title #}
-            </a>
-          </li>
-          {% endfor %} {# End the loop #}
-        </ul>
-      </div>
-    </div>
-
-
-
-
-
-
-<!--  {# 2. Main Content Container                                                  #}-->
-<!--  {#-->
-<!--      - The container-fluid has a top margin of 70px (to sit below the navbar).-->
-<!--      - We do NOT apply an inline left margin here; instead, we use a custom CSS class (.main-content)-->
-<!--        to add a left margin ONLY on medium and larger screens—this prevents overlapping with the fixed panel.-->
-<!--      - On small screens (where the panel is hidden), no left margin is applied so the content uses the full width.-->
-<!--  #}-->
-  <div class="container-fluid pt-5 main-content" style="margin-top:70px;">
-    <div class="row">
-<!--      {# -->
-<!--          Main Content Column:-->
-<!--          - "col-12": Full-width on extra-small screens.-->
-<!--          - "col-md-7": On medium screens and above, the grid column occupies 7/12 of the row.-->
-<!--          - (Our custom CSS will add a left margin of 300px on md+)-->
-<!--      #}-->
-      <div class="col-12 col-md-7">
-<!--        <p><strong>Content:</strong></p>-->
-<!--          Previous and next buttons     -->
-        <div class="container">
-          <div class="row">
-            <div class="col-6 text-start">
-                {% if previous_topic %} {# Show button only if there is a previous topic #}
-                    <a href="{% url 'topic' concept_slug=concept.slug topic_slug=previous_topic.slug %}" class="btn btn-outline-primary" role="button">
-                        &laquo; Prev
-                    </a>
-                {% endif %}
-<!--                <a href="your-previous-page-url.html" class="btn btn-outline-primary" role="button">Prev</a>-->
-            </div>
-            <div class="col-6 text-end">
-                {% if next_topic %} {# Show button only if there is a next topic #}
-                    <a href="{% url 'topic' concept_slug=concept.slug topic_slug=next_topic.slug %}" class="btn btn-outline-primary" role="button">
-                        Next &raquo;
-                    </a>
-                {% endif %}
-<!--                <a href="your-next-page-url.html" class="btn btn-outline-primary" role="button">Next</a>-->
-            </div>
-          </div>
-        </div>
-        <h2 class="row justify-content-md-center">{{ topic.title }}</h2>
-
-        <div>
-          {{ topic.content|safe }}
-        </div>
-<!--        {# If there are subtitles, list them and display their content #}-->
-        {% if subtitles %}
-          <ul>
-            {% for subtitle in subtitles %}
-              <li>
-<!--                  link text are not so good have to fix it!-->
-                <a href="#subtitle-{{ subtitle.order }}" style="color: default; font-size: 20px; text-decoration: none;"><strong>{{ subtitle.title }}</strong></a>
-              </li>
-            {% endfor %}
-          </ul>
-          {% for subtitle in subtitles %}
-            <section id="subtitle-{{ subtitle.order }}">
-              <h3>{{ subtitle.title }}</h3>
-              <div>
-                {{ subtitle.content|safe }}
-              </div>
-            </section>
-          {% endfor %}
-        {% endif %}
-
-        <div class="container">
-          <div class="row">
-            <div class="col-6 text-start">
-                {% if previous_topic %} {# Show button only if there is a previous topic #}
-                    <a href="{% url 'topic' concept_slug=concept.slug topic_slug=previous_topic.slug %}" class="btn btn-outline-primary" role="button">
-                        &laquo; {{ previous_topic.title }}
-                    </a>
-                {% endif %}
-<!--                <a href="your-previous-page-url.html" class="btn btn-outline-primary" role="button">Prev</a>-->
-            </div>
-            <div class="col-6 text-end">
-                {% if next_topic %} {# Show button only if there is a next topic #}
-                    <a href="{% url 'topic' concept_slug=concept.slug topic_slug=next_topic.slug %}" class="btn btn-outline-primary" role="button">
-                        {{ next_topic.title }} &raquo;
-                    </a>
-                {% endif %}
-<!--                <a href="your-next-page-url.html" class="btn btn-outline-primary" role="button">Next</a>-->
-            </div>
-          </div>
-        </div>
-<!--      {# -->
-<!--          Reserved Right Column:-->
-<!--          - "col-12 col-md-2": On extra-small screens, it spans full width (you might hide it then),-->
-<!--            and on medium+ it reserves 2/12 of the row for future content or advertisements.-->
-<!--      #}-->
-      <div class="col-12 col-md-2">
-        <!-- Reserved space for future content -->
+<!-- Secondary Navigation Bar -->
+<div class="bg-body-secondary border-bottom shadow-sm position-sticky" style="top: 56px; z-index: 1020; margin-top: 56px;">
+  <div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-between py-3 px-3 gap-3">
+      <!-- Mobile menu toggle -->
+      <button class="btn btn-outline-secondary d-lg-none d-flex align-items-center gap-2" 
+              type="button" data-bs-toggle="offcanvas" data-bs-target="#topicSidebar">
+        <i class="bi bi-list"></i>
+        <span>Topics</span>
+      </button>
+      
+      <!-- Breadcrumb -->
+      <div class="d-flex align-items-center gap-3 flex-fill min-width-0">
+        <span class="text-body-secondary small fw-medium text-truncate">{{ concept.title }}</span>
+        <span class="badge bg-primary rounded-pill">{{ topics|length }} Topics</span>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Main Layout -->
+<div class="container-fluid p-0 bg-body">
+  <div class="row g-0">
+    <!-- Desktop Sidebar -->
+    <div class="col-lg-3 col-xl-2 d-none d-lg-block">
+      <div class="bg-body-tertiary border-end position-sticky overflow-y-auto" 
+           style="top: 112px; height: calc(100vh - 112px);">
+        <div class="p-4">
+          <h6 class="text-body-secondary text-uppercase fw-bold mb-3 fs-7 ls-1">Topics</h6>
+          <nav class="nav flex-column gap-1">
+            {% for topic_item in topics %}
+            <a href="{% url 'topic' concept_slug=concept.slug topic_slug=topic_item.slug %}" 
+               class="nav-link text-decoration-none border rounded-3 d-flex align-items-center gap-3 p-3
+                      {% if topic_item.slug == topic.slug %}
+                        bg-primary text-white border-primary shadow-sm
+                      {% else %}
+                        text-body border-transparent hover-bg-body-secondary
+                      {% endif %}
+                      transition-all">
+              <span class="d-flex align-items-center justify-content-center rounded-circle fw-bold fs-7
+                           {% if topic_item.slug == topic.slug %}
+                             bg-white bg-opacity-25 text-white
+                           {% else %}
+                             bg-body-secondary text-body
+                           {% endif %}"
+                    style="width: 28px; height: 28px;">
+                {{ topic_item.order }}
+              </span>
+              <span class="flex-fill fw-medium fs-7">{{ topic_item.title }}</span>
+              {% if topic_item.slug == topic.slug %}
+              <i class="bi bi-chevron-right text-white-50"></i>
+              {% endif %}
+            </a>
+            {% endfor %}
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="col-12 col-lg-9 col-xl-10">
+      <div class="container-fluid" style="max-width: 800px;">
+        <div class="px-3 px-md-4 py-4">
+          
+          <!-- Top Navigation -->
+          <div class="d-flex justify-content-between mb-4">
+            <div class="flex-shrink-0">
+              {% if previous_topic %}
+              <a href="{% url 'topic' concept_slug=concept.slug topic_slug=previous_topic.slug %}" 
+                 class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                <i class="bi bi-chevron-left"></i>
+                <span class="d-none d-sm-inline">{{ previous_topic.title|truncatechars:20 }}</span>
+                <span class="d-inline d-sm-none">Previous</span>
+              </a>
+              {% endif %}
+            </div>
+            <div class="flex-shrink-0">
+              {% if next_topic %}
+              <a href="{% url 'topic' concept_slug=concept.slug topic_slug=next_topic.slug %}" 
+                 class="btn btn-outline-secondary d-flex align-items-center gap-2">
+                <span class="d-none d-sm-inline">{{ next_topic.title|truncatechars:20 }}</span>
+                <span class="d-inline d-sm-none">Next</span>
+                <i class="bi bi-chevron-right"></i>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Topic Header -->
+          <header class="border-bottom pb-4 mb-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="d-flex align-items-center justify-content-center bg-body-secondary text-body border rounded fw-bold"
+                    style="width: 32px; height: 32px;">
+                {{ topic.order }}
+              </span>
+              <span class="text-body-secondary fw-medium">{{ concept.title }}</span>
+            </div>
+            <h1 class="display-6 fw-bold text-body mb-3">{{ topic.title }}</h1>
+            {% if topic.tagline %}
+            <p class="lead text-body-secondary mb-0">{{ topic.tagline }}</p>
+            {% endif %}
+          </header>
+
+          <!-- Content Body -->
+          <article class="mb-5">
+            <div class="fs-6 lh-lg text-body">
+              {{ topic.content|safe }}
+            </div>
+
+            <!-- Subtitles Section -->
+            {% if subtitles %}
+            <section class="mt-5">
+              <h3 class="h5 text-body-secondary fw-semibold mb-4">In this topic:</h3>
+              
+              <!-- Table of Contents -->
+              <div class="bg-body-tertiary border rounded-3 p-3 mb-4">
+                {% for subtitle in subtitles %}
+                <a href="#subtitle-{{ subtitle.order }}" 
+                   class="d-flex align-items-center gap-3 p-3 text-decoration-none text-body rounded-2 hover-bg-body">
+                  <span class="d-flex align-items-center justify-content-center bg-primary text-white rounded fw-bold fs-7"
+                        style="width: 24px; height: 24px;">
+                    {{ subtitle.order }}
+                  </span>
+                  <span class="fw-medium">{{ subtitle.title }}</span>
+                </a>
+                {% endfor %}
+              </div>
+
+              <!-- Subtitle Content -->
+              {% for subtitle in subtitles %}
+              <section id="subtitle-{{ subtitle.order }}" class="mb-5" style="scroll-margin-top: 140px;">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <span class="d-flex align-items-center justify-content-center bg-primary text-white rounded fw-bold"
+                        style="width: 28px; height: 28px; font-size: 0.75rem;">
+                    {{ subtitle.order }}
+                  </span>
+                  <h3 class="h4 text-body fw-semibold mb-0">{{ subtitle.title }}</h3>
+                </div>
+                <div class="fs-6 lh-lg text-body">
+                  {{ subtitle.content|safe }}
+                </div>
+              </section>
+              {% endfor %}
+            </section>
+            {% endif %}
+          </article>
+
+          <!-- Bottom Navigation -->
+          <nav class="border-top pt-4">
+            <div class="row g-3">
+              <div class="col-md-6">
+                {% if previous_topic %}
+                <a href="{% url 'topic' concept_slug=concept.slug topic_slug=previous_topic.slug %}" 
+                   class="btn btn-outline-primary d-flex align-items-center gap-3 w-100 p-3">
+                  <i class="bi bi-chevron-left fs-5"></i>
+                  <div class="text-start">
+                    <div class="small text-body-secondary">Previous</div>
+                    <div class="fw-semibold">{{ previous_topic.title }}</div>
+                  </div>
+                </a>
+                {% endif %}
+              </div>
+              <div class="col-md-6">
+                {% if next_topic %}
+                <a href="{% url 'topic' concept_slug=concept.slug topic_slug=next_topic.slug %}" 
+                   class="btn btn-outline-primary d-flex align-items-center justify-content-end gap-3 w-100 p-3">
+                  <div class="text-end">
+                    <div class="small text-body-secondary">Next</div>
+                    <div class="fw-semibold">{{ next_topic.title }}</div>
+                  </div>
+                  <i class="bi bi-chevron-right fs-5"></i>
+                </a>
+                {% endif %}
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Mobile Offcanvas Sidebar -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="topicSidebar">
+  <div class="offcanvas-header bg-body-tertiary border-bottom">
+    <h5 class="offcanvas-title text-body fw-semibold">{{ concept.title }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body p-0">
+    <!-- Mobile Progress -->
+      <!-- Progress indicator -->
+      <div class="mb-3 pb-3 border-bottom">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="text-muted small fw-semibold">PROGRESS</span>
+              <span class="badge bg-primary">{{ current_position }}/{{ total_topics }}</span>
+            </div>
+            <div class="progress bg-white" style="height: 6px;">
+              <div class="progress-bar bg-primary" role="progressbar" 
+                   style="width: {{ progress_percent }}%" 
+                   aria-valuenow="{{ progress_percent }}" 
+                   aria-valuemin="0" 
+                   aria-valuemax="100"></div>
+            </div>
+          <div class="text-muted small mt-1">{{ progress_percent }}% Complete</div>
+      </div>
+    
+    <!-- Mobile Navigation -->
+    <nav class="p-3">
+      {% for topic_item in topics %}
+      <a href="{% url 'topic' concept_slug=concept.slug topic_slug=topic_item.slug %}" 
+         class="d-flex align-items-center gap-3 p-3 mb-2 text-decoration-none border rounded-3
+                {% if topic_item.slug == topic.slug %}
+                  bg-primary text-white border-primary
+                {% else %}
+                  text-body border-transparent hover-bg-body-tertiary
+                {% endif %}
+                transition-all"
+         data-bs-dismiss="offcanvas">
+        <span class="d-flex align-items-center justify-content-center rounded-circle fw-bold
+                     {% if topic_item.slug == topic.slug %}
+                       bg-white bg-opacity-25 text-white
+                     {% else %}
+                       bg-body-secondary text-body
+                     {% endif %}"
+              style="width: 32px; height: 32px;">
+          {{ topic_item.order }}
+        </span>
+        <div class="flex-fill">
+          <div class="fw-medium">{{ topic_item.title }}</div>
+        </div>
+        {% if topic_item.slug == topic.slug %}
+        <i class="bi bi-check-circle-fill text-white-75"></i>
+        {% endif %}
+      </a>
+      {% endfor %}
+    </nav>
+  </div>
+</div>
+
+<style>
+/* Custom Bootstrap utilities */
+.fs-7 {
+  font-size: 0.875rem !important;
+}
+
+.ls-1 {
+  letter-spacing: 0.05em !important;
+}
+
+.min-width-0 {
+  min-width: 0 !important;
+}
+
+.transition-all {
+  transition: all 0.15s ease-in-out !important;
+}
+
+.hover-bg-body-secondary:hover {
+  background-color: var(--bs-secondary-bg) !important;
+}
+
+.hover-bg-body-tertiary:hover {
+  background-color: var(--bs-tertiary-bg) !important;
+}
+
+.hover-bg-body:hover {
+  background-color: var(--bs-body-bg) !important;
+}
+
+/* Scrollbar styling using Bootstrap colors */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background-color: var(--bs-tertiary-bg);
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: var(--bs-border-color);
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background-color: var(--bs-secondary-color);
+}
+
+/* Focus states using Bootstrap focus ring */
+.nav-link:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .container-fluid[style*="max-width"] {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .display-6 {
+    font-size: 1.75rem !important;
+  }
+  
+  .lead {
+    font-size: 1rem !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .position-sticky,
+  .offcanvas,
+  nav:has(.btn) {
+    display: none !important;
+  }
+  
+  .col-lg-9,
+  .col-xl-10 {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .nav-link.bg-primary {
+    border: 2px solid var(--bs-primary) !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .transition-all {
+    transition: none !important;
+  }
+}
+</style>
 
 {% endblock %}
-
-
-{# block content #}
-
-  {# Added pt-5 for top padding to account for the fixed-top navbar #}
-  <div class="container-fluid pt-5 pb-3">
-    <div class="row">
-
-      {# ===================================================================== #}
-      {# TOPIC LIST SIDEBAR - For Larger Screens (>=md)                         #}
-      {# This column is hidden on small screens and shown as a fixed sidebar  #}
-      {# ===================================================================== #}
-      <div class="col-md-3 d-none d-md-block bg-light border-end pt-3"> {# bg-light for a subtle background, border-end for a separator #}
-        <h5 class="mb-3 text-secondary">Topics in {{ concept.title }}</h5>
-        <ul class="list-group list-group-flush">
-          {% for t in concept.topics.all|dictsort:"order" %}
-            <li class="list-group-item {% if t.slug == topic.slug %}active{% endif %}">
-              <a class="nav-link {% if t.slug == topic.slug %}text-white{% else %}text-dark{% endif %}"
-                 href="{% url 'topic' concept_slug=concept.slug topic_slug=t.slug %}">
-                {{ t.order }}. {{ t.title }}
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      {# ===================================================================== #}
-      {# MAIN CONTENT AREA                                                     #}
-      {# Spans full width on small screens, and shrinks for sidebar on larger #}
-      {# ===================================================================== #}
-      <div class="col-12 col-md-9">
-        <div class="px-md-3"> {# Add horizontal padding for content #}
-          {# Toggle button for the Offcanvas on small screens #}
-          <div class="d-block d-md-none mb-3">
-            <button class="btn btn-outline-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#topicOffcanvas" aria-controls="topicOffcanvas">
-              <i class="bi bi-list me-2"></i> {# Add a Bootstrap Icon, ensure you have Bootstrap Icons loaded in base.html #}
-            </button>
-          </div>
-
-          <h1 class="display-5 fw-bold mb-3">{{ topic.title }}</h1>
-          <p class="lead text-muted mb-4">{{ topic.tagline }}</p>
-
-          <hr>
-
-          {# CKEditor5Field content #}
-          <div class="ck-content mb-5"> {# Add some bottom margin to content #}
-            {{ topic.content|safe }}
-          </div>
-
-          {# Previous/Next Topic Navigation #}
-          <div class="row mt-5 pt-3 border-top"> {# Added border-top for visual separation #}
-            <div class="col-6 text-start">
-                {% if prev_topic %} {# Show button only if there is a previous topic #}
-                    <a href="{% url 'topic' concept_slug=concept.slug topic_slug=prev_topic.slug %}" class="btn btn-outline-primary" role="button">
-                        &laquo; {{ prev_topic.title }}
-                    </a>
-                {% endif %}
-            </div>
-            <div class="col-6 text-end">
-                {% if next_topic %} {# Show button only if there is a next topic #}\
-                    <a href="{% url 'topic' concept_slug=concept.slug topic_slug=next_topic.slug %}" class="btn btn-outline-primary" role="button">
-                        {{ next_topic.title }} &raquo;
-                    </a>
-                {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  {# ===================================================================== #}
-  {# TOPIC LIST OFFCAVAS - For Smaller Screens (<md)                       #}
-  {# This offcanvas overlaps content and is triggered by the button above #}
-  {# ===================================================================== #}
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="topicOffcanvas" aria-labelledby="topicOffcanvasLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="topicOffcanvasLabel">Topics in {{ concept.title }}</h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <ul class="list-group list-group-flush">
-        {% for t in concept.topics.all|dictsort:"order" %}
-          <li class="list-group-item {% if t.slug == topic.slug %}active{% endif %}">
-            <a class="nav-link {% if t.slug == topic.slug %}text-white{% else %}text-dark{% endif %}"
-               href="{% url 'topic' concept_slug=concept.slug topic_slug=t.slug %}">
-              {{ t.order }}. {{ t.title }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-
-{# endblock #}
-
-
-
-
-
-
-
-
-<!-- for edit option of the content(concept) for admin users only-->
-<!--{% if user.is_staff %}-->
-<!--<a href="{% url 'admin:Tutorial_concept_change' concept.pk %}">Edit Concept</a>-->
-<!--{% endif %}-->
-
-<!-- for edit option of the content(subtitle) for admin users only-->
-<!--{% if user.is_staff %}-->
-<!--  <a href="{% url 'admin:Tutorial_subtitle_change' subtitle.pk %}">Edit Subtitle</a>-->
-<!--{% endif %}-->

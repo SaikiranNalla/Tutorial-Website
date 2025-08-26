@@ -1,26 +1,64 @@
-# Dockerfile — builds the web image
+# # Dockerfile — builds the web image
+# FROM python:3.11-slim
+
+# ENV PYTHONDONTWRITEBYTECODE=1
+# ENV PYTHONUNBUFFERED=1
+
+# WORKDIR /app
+
+# # System deps for psycopg2 and building wheels
+# RUN apt-get update \
+#   && apt-get install -y --no-install-recommends build-essential libpq-dev gcc \
+#   && rm -rf /var/lib/apt/lists/*
+
+# # Install pip dependencies
+# COPY requirements.txt .
+# RUN pip install --no-cache-dir -r requirements.txt
+
+# # Copy project
+# COPY . .
+
+# # Make entrypoint executable
+# RUN chmod +x /app/entrypoint.sh
+
+# # Default command for dev (overridden in production)
+# ENTRYPOINT ["/app/entrypoint.sh"]
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+
+
+# Production:
+  # Dockerfile
 FROM python:3.11-slim
 
+# set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+# create working directory
 WORKDIR /app
 
-# System deps for psycopg2 and building wheels
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends build-essential libpq-dev gcc \
-  && rm -rf /var/lib/apt/lists/*
+# system dependencies (if you need build dependencies for psycopg2)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential libpq-dev curl && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install pip dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# copy requirements & install
+COPY ./requirements.txt /app/requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r /app/requirements.txt
 
-# Copy project
-COPY . .
+# copy project
+COPY . /app
 
-# Make entrypoint executable
+# make entrypoint executable
 RUN chmod +x /app/entrypoint.sh
 
-# Default command for dev (overridden in production)
-ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# collect static files (will run at build time; alternative is run at startup)
+RUN python manage.py collectstatic --noinput || echo "collectstatic failed (maybe DB not ready)"
+
+# expose port (Render sets $PORT env var, but default is 8000 here)
+EXPOSE 8000
+
+# default command: entrypoint will run migrations then start gunicorn
+CMD ["/app/entrypoint.sh"]

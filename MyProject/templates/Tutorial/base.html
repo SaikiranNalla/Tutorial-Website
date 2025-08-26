@@ -85,6 +85,16 @@
         color: #fff;                 /* White text for contrast */
       }
 
+
+      /* Index.html styles */
+      .list-group-item:hover {
+        background-color: var(--bs-list-group-hover-bg, #417690) !important;
+      }
+      @media (prefers-color-scheme: dark) {
+        .list-group-item:hover {
+          background-color: #417690 !important;
+        }
+      }
     </style>
   </head>
   <body>
@@ -92,12 +102,12 @@
     <nav class="navbar navbar-expand-md fixed-top" style="background-color: #417690;">
       <div class="container-fluid">
         <!-- Left side: Button to open the offcanvas side panel -->
-        <button class="btn me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidePanel" aria-controls="sidePanel">
+        <!-- <button class="btn me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidePanel" aria-controls="sidePanel">
           <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> -->
 
         <!-- Brand Name -->
-        <a class="navbar-brand" href="/">sₖ</a>
+        <a class="navbar-brand" href="/"> Sₖ </a>
 
         <!-- Right side: Navbar toggle on small screens -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -142,16 +152,16 @@
       </div>
     </nav>
 
-    {% block sidepanel %}
+    {# block sidepanel #}
         <!-- Offcanvas Side Panel (opens from the left) -->
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="sidePanel" aria-labelledby="sidePanelLabel" style="background-color: #417690;" >
+        <!-- <div class="offcanvas offcanvas-start" tabindex="-1" id="sidePanel" aria-labelledby="sidePanelLabel" style="background-color: #417690;" >
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidePanelLabel">Menu</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
+          </div> -->
+          <!-- <div class="offcanvas-body"> -->
             <!-- Same menu items as in the navbar -->
-            <ul class="navbar-nav">
+            <!-- <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link text-light" href="/">Home</a>
               </li>
@@ -159,16 +169,16 @@
                 <a class="nav-link dropdown-toggle text-light" href="#" id="offcanvasTutorialsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Tutorials
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="offcanvasTutorialsDropdown">
+                <ul class="dropdown-menu" aria-labelledby="offcanvasTutorialsDropdown"> -->
 <!--                  <li><a class="dropdown-item" href="/topics">Tutorial</a></li>-->
 <!--                  <li><a class="dropdown-item" href="/topics">CyberSecurity</a></li>-->
 <!--                  <li><a class="dropdown-item" href="#">Python</a></li>-->
-                  {% for concept in nav_concepts %}
-                      <li>
-                        <a class="dropdown-item" href="{% url 'index' concept.slug %}">{{ concept.title }}</a>
-                      </li>
-                  {% endfor %}
-                </ul>
+                  {# for concept in nav_concepts #}
+                      <!-- <li>
+                        <a class="dropdown-item" href="{# url 'index' concept.slug #}">{{ concept.title }}</a>
+                      </li> -->
+                  {# endfor #}
+                <!-- </ul>
               </li>
               <li class="nav-item">
                 <a class="nav-link text-light" href="/about">About Us</a>
@@ -178,24 +188,60 @@
               </li>
             </ul>
           </div>
+        </div> -->
+    {# endblock #}
+    <main>
+{% block content %}
+  <div class="container py-5">
+
+    <!-- Hero -->
+    <div class="text-center mb-4 mt-5 pt-9">
+      <h1 class="display-4 fw-bold">Sₖ Tutorial</h1>
+      <p class="lead text-muted">Choose a concept to start learning</p>
+    </div>
+
+    
+
+    <!-- Optional: short description grid (clean & bootstrap-first) -->
+    <div class="row g-3">
+      {% for concept in concepts %}
+        <div class="col-12 col-md-6 col-lg-4">
+          <a href="{% url 'index' concept_slug=concept.slug %}" class="text-decoration-none">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title mb-1">{{ concept.title }}</h5>
+                {% if concept.short_description %}
+                  <p class="card-text text-muted small">{{ concept.short_description|truncatechars:100 }}</p>
+                {% else %}
+                  <p class="card-text text-muted small">Short description not provided.</p>
+                {% endif %}
+                <div class="mt-3 d-flex justify-content-between align-items-center">
+                  <span class="badge bg-secondary">{{ concept.topic_set.count }} topics</span>
+                  <small class="text-muted">Start →</small>
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
-    {% endblock %}
-    <div>
-        {% block content %}
-        <div class="container py-5">
-            <div class="text-center my-5">
+      {% endfor %}
+    </div>
+
+  </div>
+{% endblock %}
+        <!-- <div class="container py-5"> -->
+            <!-- <div class="text-center my-5"> -->
 <!--      {# Main large heading using display-4 for a high-impact font size #}-->
-             <h1 class="display-1"><strong>sₖ Tutorial</strong></h1>
+             <!-- <h1 class="display-1"><strong>sₖ Tutorial</strong></h1> -->
 <!--      {# A subheading using the lead class for a slightly lighter, descriptive tone #}-->
-                <p class="display-6"><strong>Learn to Excel</strong></p>
+                <!-- <p class="display-6"><strong>Learn to Excel</strong></p> -->
 <!--      {# The call-to-action button: btn-dark gives you a black button with white text; btn-lg for a larger button #}-->
 <!--      <a href="#concepts-{{ concepts.order }}"  class="btn btn-dark btn-lg">Get Started</a>-->
-            </div>
+            <!-- </div> -->
 <!--    {# Future content: a list of items can be inserted here later #}-->
 <!--    like add buttons for each course-->
-        </div>
-        {% endblock %}
-    </div>
+        <!-- </div> -->
+        
+      </main>
 
     <!-- Bootstrap JS Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -12,7 +12,12 @@
 <!--      {# A subheading using the lead class for a slightly lighter, descriptive tone #}-->
       <p class="lead">{{ concept.tagline }}</p>
 <!--      {# The call-to-action button: btn-dark gives you a black button with white text; btn-lg for a larger button #}-->
-      <a href="#concepts-{{ concepts.order }}"  class="btn btn-dark btn-lg">Get Started</a>
+      <!-- <a href="#concepts-{{ concepts.order }}"  class="btn btn-dark btn-lg">Get Started</a> -->
+        <a href="{% url 'topic' concept_slug=concept.slug topic_slug=topics.0.slug %}" 
+        class="btn btn-dark btn-lg" 
+        style="background-color: #000; border-color: #000;">
+        Get Started
+        </a>   
     </div>
 <!--    {# Future content: a list of items can be inserted here later #}-->
   </div>
@@ -44,22 +49,34 @@
 <!--        </ul>-->
 <!--      </div>-->
 <!--  </div>-->
-<div class="container mt-4">
-    <h1>Contents: {{ concept.title }}</h1> {# Displays the title of the current concept #}
+<div class="container mt-5">
+  <h1 class="mb-4 fs-3 fw-bold" style="color: var(--bs-body-color);">
+    Contents: {{ concept.title }}
+  </h1>
 
-    {% if topics %} {# Check if there are any topics to display #}
-        <ul class="list-group">
-            {% for topic in topics %} {# Start looping through each 'topic' in the 'topics' list #}
-                <li class="list-group-item">
-                    {# Create a link to the individual topic page #}
-                    <a href="{% url 'topic' concept_slug=concept.slug topic_slug=topic.slug %}">
-                        {{ topic.order }}. {{ topic.title }} {# Display the topic's order and title #}
-                    </a>
-                </li>
-            {% endfor %} {# End the loop #}
-        </ul>
-    {% else %} {# If there are no topics in the 'topics' list #}
-        <p>No topics found for this concept yet.</p>
-    {% endif %}
+  {% if topics %}
+    <ul class="list-group list-group-flush rounded shadow-sm">
+      {% for topic in topics %}
+        <li class="list-group-item px-3 py-2 border-start-0 border-end-0"
+            style="background-color: var(--bs-list-group-action-hover-bg, #f8f9fa); transition: background-color 0.2s;">
+          <a href="{% url 'topic' concept_slug=concept.slug topic_slug=topic.slug %}"
+             class="text-decoration-none d-flex align-items-center"
+             aria-label="Go to topic: {{ topic.order }}. {{ topic.title }}">
+            <span class="badge rounded-circle me-3 d-flex align-items-center justify-content-center text-white"
+                  style="width: 32px; height: 32px; font-size: 0.85rem; background-color: #000;">
+              {{ topic.order }}
+            </span>
+            <span class="fw-medium" style="color: var(--bs-body-color);">{{ topic.title }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted fst-italic">
+      No topics found for this concept yet.
+    </p>
+  {% endif %}
 </div>
+ 
+
 {% endblock %}

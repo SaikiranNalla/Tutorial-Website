@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 # import environ
 # from dotenv import load_dotenv
 #
@@ -33,15 +34,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-25nnp7zrqpt8hlme_85jra50b#xr3gnx+#chfjw1nqg5e!(3)1'
-# SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = 'django-insecure-25nnp7zrqpt8hlme_85jra50b#xr3gnx+#chfjw1nqg5e!(3)1'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', "dev-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = env('DEBUG')
+# DEBUG = True
+DEBUG = os.environ.get('DEBUG')
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
@@ -136,15 +137,19 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 
 
 
+# DATABASES = {
+#   'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': os.environ.get('DB_NAME', 'myapp_db'),
+#     'USER': os.environ.get('DB_USER', 'myapp_user'),
+#     'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+#     'HOST': os.environ.get('DB_HOST', 'localhost'),
+#     'PORT': os.environ.get('DB_PORT', '5432'),
+#   }
+# }
+
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': os.environ.get('DB_NAME', 'myapp_db'),
-    'USER': os.environ.get('DB_USER', 'myapp_user'),
-    'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-    'HOST': os.environ.get('DB_HOST', 'localhost'),
-    'PORT': os.environ.get('DB_PORT', '5432'),
-  }
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL', ""), conn_max_age=600)
 }
 
 # Password validation
@@ -181,11 +186,27 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # This directory will be created to store collected static files
 
+STATICFILES_DIRS = [BASE_DIR, 'static']  # This is where you put your static files for development
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# Security: recommended in production
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Optional: Logging so you can see errors in Render logs
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    "root": {"handlers": ["console"], "level": "INFO"},
+}
