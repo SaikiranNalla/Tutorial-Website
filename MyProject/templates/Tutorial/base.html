@@ -203,7 +203,7 @@
     
 
     <!-- Optional: short description grid (clean & bootstrap-first) -->
-    <div class="row g-3">
+    <div class="row g-3 justify-content-center">
       {% for concept in concepts %}
         <div class="col-12 col-md-6 col-lg-4">
           <a href="{% url 'index' concept_slug=concept.slug %}" class="text-decoration-none">
@@ -211,7 +211,7 @@
               <div class="card-body">
                 <h5 class="card-title mb-1">{{ concept.title }}</h5>
                 {% if concept.tagline %}
-                  <p class="card-text text-muted small">{{ concept.short_description|truncatechars:100 }}</p>
+                  <p class="card-text text-muted small">{{ concept.tagline|truncatechars:100 }}</p>
                 {% else %}
                   <p class="card-text text-muted small">Learn to Excel</p>
                 {% endif %}
