@@ -42,8 +42,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', "dev-secret-key")
 DEBUG = os.environ.get('DEBUG')
 
 
-# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-ALLOWED_HOSTS = ["sktutorials.onrender.com"]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# ALLOWED_HOSTS = ["sktutorials.onrender.com"]
 
 # Application definition
 
@@ -210,3 +210,14 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler"}},
     "root": {"handlers": ["console"], "level": "INFO"},
 }
+
+
+# Robust ALLOWED_HOSTS parsing and debug output
+import os, sys
+
+_raw_allowed = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
+ALLOWED_HOSTS = [h.strip() for h in _raw_allowed.split(',') if h.strip()]
+
+# DEBUG: print what Django actually sees at startup (appears in Render logs)
+print("DEBUG: ALLOWED_HOSTS env raw:", repr(_raw_allowed), file=sys.stderr)
+print("DEBUG: ALLOWED_HOSTS parsed:", ALLOWED_HOSTS, file=sys.stderr)
