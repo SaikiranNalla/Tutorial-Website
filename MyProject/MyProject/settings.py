@@ -212,12 +212,7 @@ LOGGING = {
 }
 
 
-# Robust ALLOWED_HOSTS parsing and debug output
-import os, sys
+# Robust ALLOWED_HOSTS parsing (production)
 
 _raw_allowed = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
 ALLOWED_HOSTS = [h.strip() for h in _raw_allowed.split(',') if h.strip()]
-
-# DEBUG: print what Django actually sees at startup (appears in Render logs)
-print("DEBUG: ALLOWED_HOSTS env raw:", repr(_raw_allowed), file=sys.stderr)
-print("DEBUG: ALLOWED_HOSTS parsed:", ALLOWED_HOSTS, file=sys.stderr)
