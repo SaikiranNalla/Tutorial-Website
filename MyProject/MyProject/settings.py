@@ -60,89 +60,89 @@ INSTALLED_APPS = [
     'dark_mode_switch',
 ]
 
-# CKEDITOR_5_CONFIGS = {
-#     'default': {
-#         'toolbar': {
-#             'items': [
-#                 'heading', '|', 'bold', 'italic', 'link',
-#                 'bulletedList', 'numberedList', 'blockQuote', 'insertTable',
-#                 'mediaEmbed', 'undo', 'redo',
-#                 # 'codeBlock'
-#             ]
-#         },
-#         'language': 'en',
-#         # Add any other configuration options you need,
-#         # The following forces the editor's content area into dark mode: color: #dcdcdc; -- text color
-#         "contentStyle": "body { background-color: #1e1e1e; color: #dcdcdc; font-family: sans-serif; }",
-#     }
-# }
-
-
-
-
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': {
             'items': [
-                'undo', 'redo', '|', 'heading', '|',
-                'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
-                'alignment', 'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
-                'highlight', 'link', 'imageUpload', 'mediaEmbed', '|',
-                # 'fileUpload', '|',  # ✅ Uncomment when you implement file upload support
-                'bulletedList', 'numberedList', 'todoList', '|',
-                'blockQuote', 'insertTable', 'codeBlock', 'code', '|',
-                'findAndReplace', 'removeFormat', 'sourceEditing',
-                # 'exportPdf', 'exportWord',  # ❌ Requires CKEditor 5 Premium (paid)
-                # 'htmlEmbed', '|',  # ✅ Uncomment when HTML embed plugin is available
-            ],
-        },
-        'heading': {
-            'options': [
-                {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},
-                {'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1'},
-                {'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2'},
-                {'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3'},
+                'heading', '|', 'bold', 'italic', 'link',
+                'bulletedList', 'numberedList', 'blockQuote', 'insertTable',
+                'mediaEmbed', 'undo', 'redo',
+                # 'codeBlock'
             ]
         },
-        'image': {
-            'toolbar': [
-                'imageTextAlternative', 'imageStyle:full', 'imageStyle:side', 'linkImage'
-            ]
-        },
-        'table': {
-            'contentToolbar': [
-                'tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties'
-            ]
-        },
-        # 'htmlSupport': {  # ✅ Enable this block when you want to allow custom HTML
-        #     'allow': [
-        #         {'name': /.*/, 'attributes': True, 'classes': True, 'styles': True}
-        #     ]
-        # },
-        'fontFamily': {
-            'options': [
-                'default',
-                'Arial, Helvetica, sans-serif',
-                'Courier New, Courier, monospace',
-                'Georgia, serif',
-                'Lucida Sans Unicode, Lucida Grande, sans-serif',
-                'Tahoma, Geneva, sans-serif',
-                'Times New Roman, Times, serif',
-                'Trebuchet MS, Helvetica, sans-serif',
-                'Verdana, Geneva, sans-serif'
-            ],
-            'supportAllValues': True
-        },
-        'fontSize': {
-            'options': ['tiny', 'small', 'default', 'big', 'huge'],
-            'supportAllValues': True
-        },
-        # 'height': 600, 
-        # 'width' : '100%', 
-        # 'placeholder': 'Enter Your Text...',
         'language': 'en',
+        # Add any other configuration options you need,
+        # The following forces the editor's content area into dark mode: color: #dcdcdc; -- text color
+        "contentStyle": "body { background-color: #1e1e1e; color: #dcdcdc; font-family: sans-serif; }",
     }
-}   
+}
+
+
+
+
+# CKEDITOR_5_CONFIGS = {
+#     'default': {
+#         'toolbar': {
+#             'items': [
+#                 'undo', 'redo', '|', 'heading', '|',
+#                 'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', '|',
+#                 'alignment', 'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+#                 'highlight', 'link', 'imageUpload', 'mediaEmbed', '|',
+#                 # 'fileUpload', '|',  # ✅ Uncomment when you implement file upload support
+#                 'bulletedList', 'numberedList', 'todoList', '|',
+#                 'blockQuote', 'insertTable', 'codeBlock', 'code', '|',
+#                 'findAndReplace', 'removeFormat', 'sourceEditing',
+#                 # 'exportPdf', 'exportWord',  # ❌ Requires CKEditor 5 Premium (paid)
+#                 # 'htmlEmbed', '|',  # ✅ Uncomment when HTML embed plugin is available
+#             ],
+#         },
+#         'heading': {
+#             'options': [
+#                 {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},
+#                 {'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1'},
+#                 {'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2'},
+#                 {'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3'},
+#             ]
+#         },
+#         'image': {
+#             'toolbar': [
+#                 'imageTextAlternative', 'imageStyle:full', 'imageStyle:side', 'linkImage'
+#             ]
+#         },
+#         'table': {
+#             'contentToolbar': [
+#                 'tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties'
+#             ]
+#         },
+#         # 'htmlSupport': {  # ✅ Enable this block when you want to allow custom HTML
+#         #     'allow': [
+#         #         {'name': /.*/, 'attributes': True, 'classes': True, 'styles': True}
+#         #     ]
+#         # },
+#         'fontFamily': {
+#             'options': [
+#                 'default',
+#                 'Arial, Helvetica, sans-serif',
+#                 'Courier New, Courier, monospace',
+#                 'Georgia, serif',
+#                 'Lucida Sans Unicode, Lucida Grande, sans-serif',
+#                 'Tahoma, Geneva, sans-serif',
+#                 'Times New Roman, Times, serif',
+#                 'Trebuchet MS, Helvetica, sans-serif',
+#                 'Verdana, Geneva, sans-serif'
+#             ],
+#             'supportAllValues': True
+#         },
+#         'fontSize': {
+#             'options': ['tiny', 'small', 'default', 'big', 'huge'],
+#             'supportAllValues': True
+#         },
+#         # 'height': 600, 
+#         # 'width' : '100%', 
+#         # 'placeholder': 'Enter Your Text...',
+#         'language': 'en',
+#     }
+# }   
 
 
 
