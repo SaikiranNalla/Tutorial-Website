@@ -1,12 +1,12 @@
-/* When in dark mode, change CKEditor background to dark */
 body.dark-mode .ck.ck-content,
 body .ck.ck-content.dark-mode {
-    background-color: #1e1e1e !important;  /* Dark background */
-    color: #ffffff !important;             /* Ensure text is white */
+    background-color: #1e1e1e !important;
+    color: #ffffff !important;
 }
-
-/* Optional: Improve readability in dark mode */
-body.dark-mode .ck.ck-content {
-    caret-color: #fff !important;          /* Cursor color */
-    outline: 1px solid #444 !important;    /* Optional: add subtle border */
-}   
+body.dark-mode .ck-editor__top {
+    background-color: #232323 !important;
+}
+body.dark-mode .ck.ck-toolbar {
+    background-color: #232323 !important;
+    color: #fff !important;
+}
