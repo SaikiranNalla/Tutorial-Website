@@ -11,17 +11,32 @@ body.dark-mode .ck.ck-toolbar {
     color: #fff !important;
 }
 
-/* Force CKEditor 5 height */
-.ck.ck-content {
-    min-height: 300px !important;
-    height: 400px !important;
-    max-height: 600px !important;
+
+
+/* Ensure the editor container is wide and tall */
+.ck-editor__editable {
+    min-height: 600px !important;
+    max-height: 800px !important;
+    height: 600px !important;
 }
 
-/* Optional: if you want full responsiveness */
-@media (max-height: 800px) {
-    .ck.ck-content {
-        min-height: 200px !important;
-        height: 300px !important;
-    }
+/* Fix toolbar wrapping */
+.ck.ck-toolbar {
+    flex-wrap: nowrap !important;
+}
+
+.ck.ck-toolbar__items {
+    overflow-x: auto !important;
+    scrollbar-width: thin !important;
+}
+
+/* Prevent container from collapsing */
+.ck.ck-content {
+    min-height: 600px !important;
+}
+
+/* Optional: if editor is in a narrow admin field */
+.field-ckeditor5,  /* Django admin field wrapper */
+.form-row.field_content {
+    overflow: visible !important;
 }   

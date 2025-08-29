@@ -78,6 +78,8 @@ INSTALLED_APPS = [
 # }
 
 
+
+
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': {
@@ -95,7 +97,8 @@ CKEDITOR_5_CONFIGS = {
             ],
             'shouldNotGroupWhenFull': True
         },
-        'height': 600,  # Set a fixed height for the editor
+        'height': 600, 
+        'width' : '100%', # Set a fixed height for the editor
         'heading': {
             'options': [
                 {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},
@@ -144,6 +147,8 @@ CKEDITOR_5_CONFIGS = {
         'language': 'en',
     }
 }   
+
+
 
 
 # Django CKEditor custom CSS setting:
