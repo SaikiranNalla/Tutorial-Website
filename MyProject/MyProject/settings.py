@@ -147,7 +147,7 @@ CKEDITOR_5_CONFIGS = {
 
 
 # Django CKEditor custom CSS setting:
-CKEDITOR_5_CUSTOM_CSS = "css/ck_editor_fix.css"
+CKEDITOR_5_CUSTOM_CSS = "static/css/ck_editor_fix.css"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -1,0 +1,27 @@
+body.dark-mode .ck.ck-content,
+body .ck.ck-content.dark-mode {
+    background-color: #1e1e1e !important;
+    color: #ffffff !important;
+}
+body.dark-mode .ck-editor__top {
+    background-color: #232323 !important;
+}
+body.dark-mode .ck.ck-toolbar {
+    background-color: #232323 !important;
+    color: #fff !important;
+}
+
+/* Force CKEditor 5 height */
+.ck.ck-content {
+    min-height: 300px !important;
+    height: 400px !important;
+    max-height: 600px !important;
+}
+
+/* Optional: if you want full responsiveness */
+@media (max-height: 800px) {
+    .ck.ck-content {
+        min-height: 200px !important;
+        height: 300px !important;
+    }
+}   
