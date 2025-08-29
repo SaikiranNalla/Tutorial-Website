@@ -95,6 +95,7 @@ CKEDITOR_5_CONFIGS = {
             ],
             'shouldNotGroupWhenFull': True
         },
+        'height': 600,  # Set a fixed height for the editor
         'heading': {
             'options': [
                 {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},
