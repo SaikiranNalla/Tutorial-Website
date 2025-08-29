@@ -43,7 +43,7 @@ DEBUG = False
 
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-# ALLOWED_HOSTS = ["sktutorials.onrender.com"]
+# ALLOWED_HOSTS = ["localhost"]
 
 # Application definition
 
@@ -60,24 +60,60 @@ INSTALLED_APPS = [
     'dark_mode_switch',
 ]
 
+# CKEDITOR_5_CONFIGS = {
+#     'default': {
+#         'toolbar': {
+#             'items': [
+#                 'heading', '|', 'bold', 'italic', 'link',
+#                 'bulletedList', 'numberedList', 'blockQuote', 'insertTable',
+#                 'mediaEmbed', 'undo', 'redo',
+#                 # 'codeBlock'
+#             ]
+#         },
+#         'language': 'en',
+#         # Add any other configuration options you need,
+#         # The following forces the editor's content area into dark mode: color: #dcdcdc; -- text color
+#         "contentStyle": "body { background-color: #1e1e1e; color: #dcdcdc; font-family: sans-serif; }",
+#     }
+# }
+
+
+
+
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': {
+            'toolbar_panel_id': 'toolbar',
+            'toolbar_width': '100%',
             'items': [
-                'heading', '|', 'bold', 'italic', 'link',
-                'bulletedList', 'numberedList', 'blockQuote', 'insertTable',
-                'mediaEmbed', 'undo', 'redo',
-                # 'codeBlock'
-            ]
+                'undo', 'redo', '|',
+                'heading', '|',
+                'bold', 'italic', 'underline', 'strikethrough', '|',
+                'alignment', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                'link', 'imageUpload', 'mediaEmbed', 'fileUpload', '|',
+                'bulletedList', 'numberedList', 'todoList', '|',
+                'blockQuote', 'insertTable', 'codeBlock', 'code', '|',
+                'findAndReplace', 'highlight', 'removeFormat'
+            ],
+            'shouldNotGroupWhenFull': True
         },
         'language': 'en',
-        # Add any other configuration options you need,
-        # The following forces the editor's content area into dark mode: color: #dcdcdc; -- text color
-        "contentStyle": "body { background-color: #1e1e1e; color: #dcdcdc; font-family: sans-serif; }",
+        'image': {
+            'toolbar': [
+                'imageTextAlternative', 'imageStyle:full', 'imageStyle:side'
+            ]
+        },
+        'table': {
+            'contentToolbar': ['tableColumn', 'tableRow', 'mergeTableCells']
+        },
+        'placeholder': 'Enter Your Text...',
     }
-}
+}   
+
+
+
 # Django CKEditor custom CSS setting:
-CKEDITOR_5_CUSTOM_CSS = "css/admin_dark_mode_fix.css"
+CKEDITOR_5_CUSTOM_CSS = "css/ck_editor_fix.css"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

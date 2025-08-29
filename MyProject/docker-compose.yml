@@ -27,6 +27,9 @@ services:
       db:
         condition: service_healthy
     environment:
+         # 👇 Add this line — this is what dj_database_url expects
+      # - DATABASE_URL=postgres://myapp_user:mysecretpassword@db:5432/myapp_db
+      
       - DB_NAME=myapp_db
       - DB_USER=myapp_user
       - DB_PASSWORD=mysecretpassword
