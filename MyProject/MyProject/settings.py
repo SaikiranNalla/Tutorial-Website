@@ -95,7 +95,6 @@ CKEDITOR_5_CONFIGS = {
                 # 'exportPdf', 'exportWord',  # ❌ Requires CKEditor 5 Premium (paid)
                 # 'htmlEmbed', '|',  # ✅ Uncomment when HTML embed plugin is available
             ],
-            'shouldNotGroupWhenFull': True
         },
         'heading': {
             'options': [
@@ -141,7 +140,7 @@ CKEDITOR_5_CONFIGS = {
         # 'height': 600, 
         # 'width' : '100%', 
         # 'placeholder': 'Enter Your Text...',
-        # 'language': 'en',
+        'language': 'en',
     }
 }   
 
@@ -150,6 +149,9 @@ CKEDITOR_5_CONFIGS = {
 
 # Django CKEditor custom CSS setting:
 # CKEDITOR_5_CUSTOM_CSS = "css/ck_editor_fix.css"
+
+# Django CKEditor custom CSS setting:
+CKEDITOR_5_CUSTOM_CSS = "css/admin_dark_mode_fix.css"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
