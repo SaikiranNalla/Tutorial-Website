@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-# import environ
-# from dotenv import load_dotenv
+import environ
+from dotenv import load_dotenv
 #
 # load_dotenv()
 
@@ -22,11 +22,11 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # django-environ setup
-# env = environ.Env(
-#     DEBUG = (bool, False)
-# )
+env = environ.Env(
+    DEBUG = (bool, False)
+)
 
-# environ.Env.read_env(os.path.join(BASE_DIR,'.env'))
+environ.Env.read_env(os.path.join(BASE_DIR,'.env'))
 
 
 
